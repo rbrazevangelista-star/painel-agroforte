@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "atualizado_em": "2026-06-10T00:00:00-03:00",
+    "fonte": "CEPEA/ESALQ",
+    "licenca": "CC BY-NC 4.0",
+    "obs": "Leite: indicador mensal (referencia no campo abaixo). Boi/Milho/Soja: indicadores diarios."
+  },
+  "leite": {
+    "titulo": "Leite",
+    "sub": "preços por estado",
+    "unidade": "R$/litro",
+    "varLabel": "Var. mês",
+    "referencia": "Leite captado em fev/26 · última série por estado divulgada pelo CEPEA (líquido, sem frete/impostos)",
+    "fonteUrl": "https://www.cepea.esalq.usp.br/br/indicador/leite.aspx",
+    "estados": [
+      {"uf": "MG", "regiao": "Sudeste",      "preco": 2.2030, "varMes": null, "tend": "up"},
+      {"uf": "SP", "regiao": "Sudeste",      "preco": 2.1963, "varMes": null, "tend": "up"},
+      {"uf": "PR", "regiao": "Sul",          "preco": 2.1600, "varMes": null, "tend": "up"},
+      {"uf": "BA", "regiao": "Nordeste",     "preco": 2.0967, "varMes": null, "tend": "up"},
+      {"uf": "RS", "regiao": "Sul",          "preco": 2.0962, "varMes": null, "tend": "up"},
+      {"uf": "SC", "regiao": "Sul",          "preco": 2.0727, "varMes": null, "tend": "up"},
+      {"uf": "GO", "regiao": "Centro-Oeste", "preco": 2.0100, "varMes": null, "tend": "up", "est": true}
+    ],
+    "media": {"label": "Média Brasil", "preco": 2.1464, "varMes": 5.43},
+    "kpis": [
+      {"label": "Média Brasil", "val": "R$ 2,1464", "sub": "+5,43% no mês", "subClass": "pos"},
+      {"label": "Jan→Fev/26", "val": "R$ 2,02 → 2,15", "sub": "2ª alta consecutiva", "subClass": ""},
+      {"label": "Relação leite/milho", "val": "≈ 33,6 l/sc", "sub": "litros p/ 1 sc de milho (jan/26)", "subClass": ""},
+      {"label": "vs fev/25 (real)", "val": "−25,4%", "sub": "deflacionado pelo IPCA", "subClass": "neg"}
+    ],
+    "contexto": "O preço do leite ao produtor reagiu em 2026 após nove meses de queda: fechou jan/26 a R$ 2,0216, subiu 5,43% em fev/26 (R$ 2,1464) e avançou mais 10,5% em março, acumulando a quarta alta mensal consecutiva até abril. O movimento é puxado pela maior competição entre laticínios por leite cru num cenário de oferta restrita. A queda do milho tem favorecido a relação de troca, ampliando o poder de compra do produtor. Em termos reais, porém, o preço ainda está cerca de 25% abaixo de 2025. MG, SP e PR seguem acima da Média Brasil; GO e BA, com captação em queda, ficam abaixo."
+  },
+  "boi": {
+    "titulo": "Boi gordo", "sub": "indicador CEPEA/B3", "unidade": "R$/@", "varLabel": "Var. dia",
+    "referencia": "Indicador do boi gordo CEPEA/B3 — à vista, arroba de 15 kg",
+    "fonteUrl": "https://www.cepea.esalq.usp.br/br/indicador/boi-gordo.aspx",
+    "estados": [], "media": null, "kpis": [],
+    "contexto": "Indicador nacional único (não por estado). O job diário preenche cotação e variação. Métricas-chave de crédito: relação de troca boi/bezerro e boi/milho."
+  },
+  "frango": {
+    "titulo": "Aves de corte", "sub": "frango no atacado (CEPEA/ESALQ)", "unidade": "R$/kg", "varLabel": "Var. mês",
+    "col1": "Produto", "col2": "Praça", "filtros": false,
+    "referencia": "Atacado de São Paulo · congelado mai/26 (parcial) e resfriado abr/26 — última divulgação verificada",
+    "fonteUrl": "https://www.cepea.esalq.usp.br/br/indicador/frango.aspx",
+    "estados": [
+      {"uf": "Frango congelado", "regiao": "Atacado SP (média 3 regiões)", "preco": 7.4800, "varMes": 4.5, "tend": "up"},
+      {"uf": "Frango resfriado", "regiao": "Atacado Grande SP", "preco": 7.1800, "varMes": 6.6, "tend": "up"}
+    ],
+    "media": null,
+    "kpis": [
+      {"label": "Congelado · atacado SP", "val": "R$ 7,48/kg", "sub": "+4,5% no mês · maior de 2026", "subClass": "pos"},
+      {"label": "Resfriado · atacado SP", "val": "R$ 7,18/kg", "sub": "+6,6% no mês", "subClass": "pos"},
+      {"label": "Competitividade", "val": "maior em 4 anos", "sub": "frente à carne bovina (abr/26)", "subClass": ""},
+      {"label": "Exportação", "val": "recorde", "sub": "máxima histórica no 1º quadri/26", "subClass": "pos"}
+    ],
+    "contexto": "O frango começou 2026 pressionado — o congelado no atacado paulista caiu por cerca de três meses e atingiu a menor média desde ago/23, puxado pela alta da produção. A partir de abril houve reação: o resfriado subiu 6,6% em abril e o congelado avançou 4,5% em maio (parcial), maior valor de 2026. O ganho de competitividade frente à carne bovina (o maior em quatro anos) sustenta a demanda, e a exportação renovou máxima histórica no início do ano. Para o crédito da integração, a margem do integrado depende do custo da ração (milho + farelo de soja) — acompanhar o preço do frango junto desses insumos."
+  },
+  "suino": {"titulo": "Suíno", "sub": "preços", "unidade": "R$/kg", "varLabel": "Var. dia", "referencia": "Indicador do suíno CEPEA", "fonteUrl": "https://www.cepea.esalq.usp.br/br/indicador/suino.aspx", "estados": [], "media": null, "kpis": [], "contexto": "Integração CEPEA em andamento para suíno."},
+  "soja": {"titulo": "Soja", "sub": "indicador CEPEA/ESALQ", "unidade": "R$/sc 60kg", "varLabel": "Var. dia", "referencia": "Indicador da soja CEPEA/ESALQ — Paranaguá", "fonteUrl": "https://www.cepea.esalq.usp.br/br/indicador/soja.aspx", "estados": [], "media": null, "kpis": [], "contexto": "Insumo-chave de custo (farelo) na nutrição animal."},
+  "milho": {"titulo": "Milho", "sub": "indicador ESALQ/B3", "unidade": "R$/sc 60kg", "varLabel": "Var. dia", "referencia": "Indicador do milho ESALQ/B3 — Campinas", "fonteUrl": "https://www.cepea.esalq.usp.br/br/indicador/milho.aspx", "estados": [], "media": null, "kpis": [], "contexto": "Principal componente de custo de ração. Queda recente melhora a relação de troca do leite e do confinamento."},
+  "ovos": {"titulo": "Ovos", "sub": "preços", "unidade": "R$/dz", "varLabel": "Var. dia", "referencia": "Indicador de ovos CEPEA", "fonteUrl": "https://www.cepea.esalq.usp.br/br/indicador/ovos.aspx", "estados": [], "media": null, "kpis": [], "contexto": "Integração CEPEA em andamento para ovos."}
+}
