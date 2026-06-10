@@ -3,20 +3,15 @@
 """
 atualizar_cepea.py
 ------------------
-Atualiza dados.json com os indicadores DIÁRIOS do CEPEA (boi, milho, soja).
-Roda todo dia via GitHub Actions. O leite é MENSAL e fica como atualização
-manual (ou rode a função de leite no fechamento do mês).
+Atualiza dados.json com os indicadores DIÁRIOS do CEPEA (boi, milho, soja),
+lendo a tabela de cotações da página de cada indicador. Roda todo dia via
+GitHub Actions.
 
-IMPORTANTE
-- O CEPEA não tem API pública. Este script lê as páginas de indicador e
-  extrai o valor. A estrutura do HTML do CEPEA pode mudar — se o valor vier
-  vazio, ajuste o seletor/regex na função `pegar_valor_indicador`.
-- Rode UMA VEZ localmente antes de confiar no automático:
-      pip install -r requirements.txt
-      python atualizar_cepea.py
-  e confira o dados.json gerado.
-- Licença dos dados: CEPEA CC BY-NC 4.0. Cite a fonte. Uso comercial
-  (ex.: produção interna numa fintech) pode exigir licenciamento junto ao CEPEA.
+Leite, frango, suíno e ovos NÃO entram aqui de propósito: são séries por
+praça/estado (ou mensais) e ficam semeadas no dados.json, atualizadas à mão.
+
+Licença dos dados: CEPEA CC BY-NC 4.0. Cite a fonte. Uso comercial pode
+exigir licenciamento junto ao CEPEA.
 """
 
 import json
@@ -32,51 +27,56 @@ ARQ = Path(__file__).parent / "dados.json"
 TZ_BR = timezone(timedelta(hours=-3))
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (painel-agroforte; contato: SEU_EMAIL) "
-                  "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/124.0 Safari/537.36",
     "Accept-Language": "pt-BR,pt;q=0.9",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 }
 
-# Páginas oficiais de indicador (valores diários).
+# Indicadores diários de valor nacional único (1ª tabela da página).
 PAGINAS = {
-    "boi":   "https://www.cepea.esalq.usp.br/br/indicador/boi-gordo.aspx",
-    "milho": "https://www.cepea.esalq.usp.br/br/indicador/milho.aspx",
-    "soja":  "https://www.cepea.esalq.usp.br/br/indicador/soja.aspx",
+    "boi":   "https://cepea.org.br/br/indicador/boi-gordo.aspx",
+    "milho": "https://cepea.org.br/br/indicador/milho.aspx",
+    "soja":  "https://cepea.org.br/br/indicador/soja.aspx",
 }
 
 
-def pegar_valor_indicador(html: str):
+def to_float(txt):
+    """'353,80' -> 353.80 ; '1.705,25' -> 1705.25"""
+    s = re.sub(r"[^\d,.-]", "", txt)
+    return float(s.replace(".", "").replace(",", "."))
+
+
+def to_pct(txt):
+    """'0,08%' -> 0.08 ; '-1,34%' -> -1.34 ; '' -> None"""
+    s = txt.strip().replace("%", "")
+    if not re.search(r"\d", s):
+        return None
+    return float(s.replace(".", "").replace(",", "."))
+
+
+def pegar_valor_indicador(html):
     """
-    Extrai (valor_float, variacao_pct_float|None) da página do indicador.
-    Estratégia em camadas — ajuste aqui se o layout mudar.
+    Lê a 1ª linha de cotação da 1ª tabela do tipo
+    [ data | Valor R$ | Var./Dia | Var./Mês | Valor US$ ].
+    Retorna (valor, var_dia, data) ou (None, None, None).
     """
     soup = BeautifulSoup(html, "html.parser")
+    for table in soup.find_all("table"):
+        for tr in table.find_all("tr"):
+            cells = [c.get_text(strip=True) for c in tr.find_all(["td", "th"])]
+            if len(cells) >= 3 and re.match(r"^\d{2}/\d{2}/\d{4}$", cells[0]):
+                try:
+                    valor = to_float(cells[1])
+                    var = to_pct(cells[2])      # Var./Dia
+                    return valor, var, cells[0]
+                except ValueError:
+                    continue
+    return None, None, None
 
-    # 1) Tenta a tabela de cotação do indicador (classes comuns no CEPEA).
-    valor = None
-    for sel in ["span.maior", ".imagenet-indicador-cotacao", "td.valor", ".valor-indicador"]:
-        el = soup.select_one(sel)
-        if el and re.search(r"\d", el.get_text()):
-            valor = el.get_text(strip=True)
-            break
 
-    # 2) Fallback: primeiro número no formato brasileiro de moeda no texto.
-    texto = soup.get_text(" ", strip=True)
-    if valor is None:
-        m = re.search(r"R\$\s*([\d\.]+,\d{2,4})", texto)
-        if m:
-            valor = m.group(1)
-
-    # 3) Variação diária (%), se exposta na página.
-    var = None
-    mv = re.search(r"(-?\d{1,3},\d{1,2})\s*%", texto)
-    if mv:
-        var = float(mv.group(1).replace(".", "").replace(",", "."))
-
-    if valor is None:
-        return None, None
-    valor_f = float(re.sub(r"[^\d,]", "", valor).replace(".", "").replace(",", "."))
-    return valor_f, var
+def fmt_brl(v):
+    return f"R$ {v:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
 
 def atualizar():
@@ -85,28 +85,31 @@ def atualizar():
 
     for chave, url in PAGINAS.items():
         try:
-            r = requests.get(url, headers=HEADERS, timeout=25)
+            r = requests.get(url, headers=HEADERS, timeout=30)
             r.raise_for_status()
-            valor, var = pegar_valor_indicador(r.text)
+            valor, var, data = pegar_valor_indicador(r.text)
             if valor is None:
                 falhas.append(chave)
+                print(f"[falha] {chave}: não achei a tabela de cotação", file=sys.stderr)
                 continue
 
             bloco = dados[chave]
+            nome = bloco.get("titulo", "Indicador")
             tend = "up" if (var or 0) > 0 else "down" if (var or 0) < 0 else "flat"
-            # Indicador nacional único entra como uma "linha Brasil".
             bloco["estados"] = [{
-                "uf": "BR", "regiao": "Nacional",
+                "uf": nome, "regiao": "Nacional",
                 "preco": valor, "varMes": var, "tend": tend
             }]
             bloco["media"] = None
             bloco["kpis"] = [{
-                "label": "Indicador CEPEA",
-                "val": f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."),
-                "sub": (f"{'+' if (var or 0) >= 0 else ''}{var}% no dia" if var is not None else "no dia"),
+                "label": f"Indicador · {data}",
+                "val": f"{fmt_brl(valor)}",
+                "sub": (f"{'+' if (var or 0) >= 0 else ''}{var}% no dia"
+                        if var is not None else "fechamento do dia"),
                 "subClass": "pos" if (var or 0) >= 0 else "neg"
             }]
-            print(f"[ok] {chave}: R$ {valor} ({var}% )")
+            bloco["referencia"] = f"Indicador diário CEPEA · fechamento {data}"
+            print(f"[ok] {chave}: {fmt_brl(valor)} ({var}%) em {data}")
         except Exception as e:
             print(f"[erro] {chave}: {e}", file=sys.stderr)
             falhas.append(chave)
@@ -115,8 +118,7 @@ def atualizar():
     ARQ.write_text(json.dumps(dados, ensure_ascii=False, indent=2), encoding="utf-8")
 
     if falhas:
-        print(f"[aviso] sem valor para: {', '.join(falhas)} — verifique o seletor.",
-              file=sys.stderr)
+        print(f"[aviso] sem valor para: {', '.join(falhas)}", file=sys.stderr)
     print("dados.json atualizado.")
 
 

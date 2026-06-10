@@ -1,9 +1,9 @@
 {
   "meta": {
-    "atualizado_em": "2026-06-10T10:29:05-03:00",
+    "atualizado_em": "2026-06-10T10:38:03-03:00",
     "fonte": "CEPEA/ESALQ",
     "licenca": "CC BY-NC 4.0",
-    "obs": "Leite: indicador mensal (referencia no campo abaixo). Boi/Milho/Soja: indicadores diarios."
+    "obs": "Boi/Milho/Soja: indicadores diarios (robo). Leite/Frango/Suino/Ovos: por praca, semeados manualmente."
   },
   "leite": {
     "titulo": "Leite",
@@ -98,16 +98,34 @@
     "contexto": "O preço do leite ao produtor reagiu em 2026 após nove meses de queda: fechou jan/26 a R$ 2,0216, subiu 5,43% em fev/26 (R$ 2,1464) e avançou mais 10,5% em março, acumulando a quarta alta mensal consecutiva até abril. O movimento é puxado pela maior competição entre laticínios por leite cru num cenário de oferta restrita. A queda do milho tem favorecido a relação de troca, ampliando o poder de compra do produtor. Em termos reais, porém, o preço ainda está cerca de 25% abaixo de 2025. MG, SP e PR seguem acima da Média Brasil; GO e BA, com captação em queda, ficam abaixo."
   },
   "boi": {
-    "titulo": "Boi gordo",
-    "sub": "indicador CEPEA/B3",
+    "titulo": "Boi gordo CEPEA/B3",
+    "sub": "indicador diário",
     "unidade": "R$/@",
     "varLabel": "Var. dia",
-    "referencia": "Indicador do boi gordo CEPEA/B3 — à vista, arroba de 15 kg",
-    "fonteUrl": "https://www.cepea.esalq.usp.br/br/indicador/boi-gordo.aspx",
-    "estados": [],
+    "col1": "Indicador",
+    "col2": "Praça",
+    "filtros": false,
+    "referencia": "Indicador do boi gordo CEPEA/B3 · fechamento 05/06/2026 (arroba de 15 kg, à vista)",
+    "fonteUrl": "https://cepea.org.br/br/indicador/boi-gordo.aspx",
+    "estados": [
+      {
+        "uf": "Boi gordo CEPEA/B3",
+        "regiao": "Nacional",
+        "preco": 353.8,
+        "varMes": 0.08,
+        "tend": "up"
+      }
+    ],
     "media": null,
-    "kpis": [],
-    "contexto": "Indicador nacional único (não por estado). O job diário preenche cotação e variação. Métricas-chave de crédito: relação de troca boi/bezerro e boi/milho."
+    "kpis": [
+      {
+        "label": "Indicador · 05/06/2026",
+        "val": "R$ 353,80",
+        "sub": "+0,08% no dia",
+        "subClass": "pos"
+      }
+    ],
+    "contexto": "Indicador nacional do boi gordo CEPEA/B3, referência para os contratos futuros da B3. O robô atualiza este valor todo dia útil. Para a leitura de crédito de fornecedores de frigorífico, vale acompanhar junto a relação de troca boi/bezerro e boi/milho."
   },
   "frango": {
     "titulo": "Aves de corte",
@@ -166,50 +184,175 @@
   },
   "suino": {
     "titulo": "Suíno",
-    "sub": "preços",
+    "sub": "suíno vivo ao produtor + carcaça no atacado",
     "unidade": "R$/kg",
-    "varLabel": "Var. dia",
-    "referencia": "Indicador do suíno CEPEA",
+    "varLabel": "Var. mês",
+    "col1": "Praça",
+    "col2": "Referência",
+    "filtros": false,
+    "referencia": "Suíno vivo ao produtor por praça e carcaça especial no atacado SP · ref. jun/26 (até dia 8) — última divulgação verificada",
     "fonteUrl": "https://www.cepea.esalq.usp.br/br/indicador/suino.aspx",
-    "estados": [],
+    "estados": [
+      {
+        "uf": "MG",
+        "regiao": "Suíno vivo",
+        "preco": 5.53,
+        "varMes": -1.6,
+        "tend": "down"
+      },
+      {
+        "uf": "SP",
+        "regiao": "Suíno vivo",
+        "preco": 5.25,
+        "varMes": -0.94,
+        "tend": "down"
+      },
+      {
+        "uf": "RS",
+        "regiao": "Suíno vivo",
+        "preco": 4.8,
+        "varMes": -6.25,
+        "tend": "down"
+      },
+      {
+        "uf": "SC",
+        "regiao": "Suíno vivo",
+        "preco": 4.76,
+        "varMes": -2.66,
+        "tend": "down"
+      },
+      {
+        "uf": "PR",
+        "regiao": "Suíno vivo",
+        "preco": 4.54,
+        "varMes": -3.81,
+        "tend": "down"
+      },
+      {
+        "uf": "Carcaça especial",
+        "regiao": "Atacado Grande SP",
+        "preco": 8.73,
+        "varMes": 1.16,
+        "tend": "up"
+      }
+    ],
     "media": null,
-    "kpis": [],
-    "contexto": "Integração CEPEA em andamento para suíno."
+    "kpis": [
+      {
+        "label": "Vivo · SP",
+        "val": "R$ 5,25/kg",
+        "sub": "−0,9% no mês",
+        "subClass": "neg"
+      },
+      {
+        "label": "Carcaça · atacado SP",
+        "val": "R$ 8,73/kg",
+        "sub": "+1,2% no mês",
+        "subClass": "pos"
+      },
+      {
+        "label": "Cenário",
+        "val": "menor desde jul/12",
+        "sub": "vivo pressionado pela oferta",
+        "subClass": ""
+      }
+    ],
+    "contexto": "O suíno vivo ao produtor está em forte queda em 2026 (preço médio o menor desde jul/12), pressionado pelo consumo doméstico fraco apesar da exportação aquecida e da menor oferta interna. Já a carcaça especial no atacado da Grande São Paulo segue valorizada, ampliando o descolamento entre o que o produtor recebe e o preço da carne. Para o crédito, atenção às praças do Sul (PR/SC/RS), onde as quedas são mais intensas."
   },
   "soja": {
-    "titulo": "Soja",
-    "sub": "indicador CEPEA/ESALQ",
+    "titulo": "Soja CEPEA/ESALQ — Paranaguá",
+    "sub": "indicador diário",
     "unidade": "R$/sc 60kg",
     "varLabel": "Var. dia",
-    "referencia": "Indicador da soja CEPEA/ESALQ — Paranaguá",
-    "fonteUrl": "https://www.cepea.esalq.usp.br/br/indicador/soja.aspx",
-    "estados": [],
+    "col1": "Indicador",
+    "col2": "Praça",
+    "filtros": false,
+    "referencia": "Indicador da soja CEPEA/ESALQ — Paranaguá · fechamento 08/06/2026",
+    "fonteUrl": "https://cepea.org.br/br/indicador/soja.aspx",
+    "estados": [
+      {
+        "uf": "Soja CEPEA/ESALQ — Paranaguá",
+        "regiao": "Nacional",
+        "preco": 130.08,
+        "varMes": 0.71,
+        "tend": "up"
+      }
+    ],
     "media": null,
-    "kpis": [],
-    "contexto": "Insumo-chave de custo (farelo) na nutrição animal."
+    "kpis": [
+      {
+        "label": "Indicador · 08/06/2026",
+        "val": "R$ 130,08",
+        "sub": "+0,71% no dia",
+        "subClass": "pos"
+      }
+    ],
+    "contexto": "Indicador da soja CEPEA/ESALQ (Paranaguá), em R$/saca de 60 kg. Insumo-chave de custo via farelo na nutrição animal — acompanhar junto do frango e do suíno para leitura de margem da integração. O robô atualiza este valor todo dia útil."
   },
   "milho": {
-    "titulo": "Milho",
-    "sub": "indicador ESALQ/B3",
+    "titulo": "Milho ESALQ/B3",
+    "sub": "indicador diário",
     "unidade": "R$/sc 60kg",
     "varLabel": "Var. dia",
-    "referencia": "Indicador do milho ESALQ/B3 — Campinas",
-    "fonteUrl": "https://www.cepea.esalq.usp.br/br/indicador/milho.aspx",
-    "estados": [],
+    "col1": "Indicador",
+    "col2": "Praça",
+    "filtros": false,
+    "referencia": "Indicador do milho ESALQ/B3 · fechamento 05/06/2026 (R$/saca de 60 kg)",
+    "fonteUrl": "https://cepea.org.br/br/indicador/milho.aspx",
+    "estados": [
+      {
+        "uf": "Milho ESALQ/B3",
+        "regiao": "Nacional",
+        "preco": 64.5,
+        "varMes": -0.02,
+        "tend": "down"
+      }
+    ],
     "media": null,
-    "kpis": [],
-    "contexto": "Principal componente de custo de ração. Queda recente melhora a relação de troca do leite e do confinamento."
+    "kpis": [
+      {
+        "label": "Indicador · 05/06/2026",
+        "val": "R$ 64,50",
+        "sub": "−0,02% no dia",
+        "subClass": "neg"
+      }
+    ],
+    "contexto": "Indicador do milho ESALQ/B3, principal componente de custo de ração. A relativa estabilidade/queda recente do milho melhora a relação de troca do leite, do frango e do confinamento — fator positivo de margem na carteira. O robô atualiza este valor todo dia útil."
   },
   "ovos": {
     "titulo": "Ovos",
-    "sub": "preços",
-    "unidade": "R$/dz",
-    "varLabel": "Var. dia",
-    "referencia": "Indicador de ovos CEPEA",
+    "sub": "ovo branco extra · Bastos (SP)",
+    "unidade": "R$/cx 30dz",
+    "varLabel": "Var. mês",
+    "col1": "Produto",
+    "col2": "Praça",
+    "filtros": false,
+    "referencia": "Ovo branco extra a retirar (FOB), caixa com 30 dúzias · Bastos (SP) — última divulgação; confirme data e tipo vermelho na fonte",
     "fonteUrl": "https://www.cepea.esalq.usp.br/br/indicador/ovos.aspx",
-    "estados": [],
+    "estados": [
+      {
+        "uf": "Ovo branco extra (FOB)",
+        "regiao": "Bastos (SP)",
+        "preco": 189.78,
+        "varMes": -0.4,
+        "tend": "down"
+      }
+    ],
     "media": null,
-    "kpis": [],
-    "contexto": "Integração CEPEA em andamento para ovos."
+    "kpis": [
+      {
+        "label": "Branco extra · Bastos (SP)",
+        "val": "R$ 189,78/cx",
+        "sub": "−0,4% no mês (a confirmar)",
+        "subClass": "neg"
+      },
+      {
+        "label": "Poder de compra",
+        "val": "recuou 2º mês",
+        "sub": "frente a milho/farelo (jun/26)",
+        "subClass": ""
+      }
+    ],
+    "contexto": "Preço do ovo branco extra a retirar (FOB) na granja, caixa com 30 dúzias, em Bastos (SP) — maior polo produtor. O mercado de ovos é bastante volátil e sazonal. O poder de compra do avicultor paulista frente a milho e farelo recuou pelo segundo mês consecutivo (jun/26). Confira o valor atual e o tipo vermelho direto na fonte antes de divulgar."
   }
 }
