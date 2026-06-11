@@ -68,6 +68,20 @@
   .source-note{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid #f1f1ed}
   .source-note a{color:var(--green-700)}
   .panel{display:none}.panel.show{display:block}
+  .impact-legend{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
+  .impact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+  .impact{border:1px solid var(--line);border-left-width:5px;border-radius:12px;padding:14px 16px;background:#fff}
+  .impact.fav{border-left-color:var(--up);background:#f5faf7}
+  .impact.aten{border-left-color:#b9820a;background:#fdf9ef}
+  .impact.desf{border-left-color:var(--down);background:#fdf4f3}
+  .impact-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px}
+  .impact-top h3{margin:0;font-size:15px;font-weight:700;color:var(--ink)}
+  .impact-badge{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:3px 9px;border-radius:999px;white-space:nowrap}
+  .impact-badge.fav{color:#0f6c3d;background:#dcf0e4}
+  .impact-badge.aten{color:#8a5e00;background:#f4e7c4}
+  .impact-badge.desf{color:#9a2820;background:#f5dbd7}
+  .impact p{margin:0;font-size:13.5px;color:#39403a;line-height:1.5}
+  .impact .small{font-size:12px;color:var(--muted);margin-top:8px}
   @media (max-width:880px){.header-inner{flex-wrap:wrap;min-height:0;padding:14px 0;gap:14px}nav.tabs{order:3;width:100%;overflow-x:auto}.tab.active::after{bottom:-14px}.header-date{margin-left:auto}main{padding:18px 16px 50px}header{padding:0 16px}}
 </style>
 </head>
@@ -128,10 +142,55 @@
     <div class="card">
       <div class="card-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg><h2>Impactos AgroForte <span class="light">— leitura de crédito</span></h2></div>
       <div class="ref">Como o movimento de mercado lê na carteira: margem, capacidade de pagamento e risco por cultura.</div>
-      <div class="context" style="margin-top:6px">
-        <h3>Leite — alta ao produtor melhora capacidade de pagamento</h3>
-        <p>A recuperação do preço ao produtor em 2026 (quatro altas mensais consecutivas até abril), somada à queda do milho, amplia a margem do pecuarista leiteiro e reduz pressão sobre o fluxo de caixa de fornecedores de laticínios na carteira. Atenção a bacias com captação em queda (GO/BA), onde o repasse de preço é mais lento.</p>
-        <p class="small">Sugestão: cruzar preço CEPEA por estado com a concentração da carteira por bacia leiteira e o custo operacional efetivo (COE) do produtor.</p>
+      <div class="impact-legend">
+        <span class="impact-badge fav">Favorável</span>
+        <span class="impact-badge aten">Atenção</span>
+        <span class="impact-badge desf">Desfavorável</span>
+      </div>
+      <div class="impact-grid">
+
+        <div class="impact fav">
+          <div class="impact-top"><h3>Leite</h3><span class="impact-badge fav">Favorável</span></div>
+          <p>Preço ao produtor em recuperação em 2026, somado à ração mais barata (milho em baixa), amplia a margem e a capacidade de pagamento do pecuarista leiteiro. Risco concentrado em bacias com captação em queda (GO/BA), onde o repasse de preço é mais lento.</p>
+          <p class="small">Cruzar preço CEPEA por estado com a concentração da carteira por bacia leiteira e o COE do produtor.</p>
+        </div>
+
+        <div class="impact fav">
+          <div class="impact-top"><h3>Boi gordo</h3><span class="impact-badge fav">Favorável</span></div>
+          <p>Demanda de exportação aquecida e real desvalorizado sustentam a arroba e o fluxo de caixa do pecuarista de corte. Atenção ao ponto do ciclo pecuário: fases de retenção de matrizes encarecem a reposição e podem comprimir a margem do confinamento.</p>
+          <p class="small">Monitorar o spread boi gordo/bezerro e a exposição da carteira a confinamentos.</p>
+        </div>
+
+        <div class="impact fav">
+          <div class="impact-top"><h3>Aves de corte</h3><span class="impact-badge fav">Favorável</span></div>
+          <p>A ração responde por boa parte do custo; com milho e farelo de soja baratos, a margem do avicultor melhora. A exportação favorecida pelo câmbio reforça a capacidade de pagamento de integrados e integradoras.</p>
+          <p class="small">Avaliar exposição a contratos de integração e à volatilidade do preço do frango.</p>
+        </div>
+
+        <div class="impact fav">
+          <div class="impact-top"><h3>Suíno</h3><span class="impact-badge fav">Favorável</span></div>
+          <p>Mesmo vetor das aves: custo de ração em queda sustenta a margem do suinocultor. A capacidade de pagamento depende também da demanda de exportação (China) — vetor mais volátil, que merece acompanhamento de perto.</p>
+          <p class="small">Acompanhar o preço do suíno vivo e a evolução das exportações.</p>
+        </div>
+
+        <div class="impact fav">
+          <div class="impact-top"><h3>Ovos</h3><span class="impact-badge fav">Favorável</span></div>
+          <p>Mercado essencialmente doméstico e sensível ao custo de ração: milho barato sustenta a margem da postura. Atenção à sazonalidade e à oferta, que pressionam o preço em alguns períodos do ano.</p>
+          <p class="small">Observar a relação preço do ovo / custo de ração por região.</p>
+        </div>
+
+        <div class="impact aten">
+          <div class="impact-top"><h3>Soja</h3><span class="impact-badge aten">Atenção</span></div>
+          <p>Preço internacional pressionado pela oferta global elevada, parcialmente compensado pelo real desvalorizado, que sustenta a receita em reais. A margem do sojicultor depende do custo de produção (insumos dolarizados) — ponto de atenção para a capacidade de pagamento.</p>
+          <p class="small">Cruzar preço de venda já travado x custo de insumos do ciclo.</p>
+        </div>
+
+        <div class="impact desf">
+          <div class="impact-top"><h3>Milho</h3><span class="impact-badge desf">Desfavorável</span></div>
+          <p>Pela ótica do produtor de grão, o preço doméstico baixo comprime margem e capacidade de pagamento, sobretudo em regiões de custo alto. Importante: é esse mesmo milho barato que alivia a ração e sustenta as margens das cadeias de proteína acima — o risco é do grão, não do sistema.</p>
+          <p class="small">Atenção a produtores de milho com baixa diversificação e custo de produção elevado.</p>
+        </div>
+
       </div>
     </div>
   </section>
