@@ -1,0 +1,36 @@
+name: Atualiza câmbio (PTAX)
+
+on:
+  schedule:
+    # 17:00 UTC = 14:00 em Brasília (UTC-3), em dias úteis.
+    # A PTAX de fechamento sai por volta das 13h de Brasília, então rodamos depois.
+    - cron: "0 17 * * 1-5"
+  workflow_dispatch: {} # permite rodar manualmente pela aba "Actions"
+
+permissions:
+  contents: write # necessário para o bot commitar o JSON
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Buscar cotações na PTAX
+        run: node scripts/atualiza-cambio.mjs
+
+      - name: Commitar se houver mudança
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dados/cambio.json
+          if git diff --staged --quiet; then
+            echo "Sem alterações no câmbio."
+          else
+            git commit -m "chore: atualiza câmbio PTAX"
+            git push
+          fi
