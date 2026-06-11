@@ -1,8 +1,9 @@
-// Lê dados/cambio.json e desenha os cards de câmbio (USD/BRL e EUR/BRL).
-// Estilo embutido — não depende do CSS do painel. Carregue com:
+// Lê dados/cambio.json e desenha os cards de câmbio (USD/BRL e EUR/BRL)
+// + a leitura de impacto nas culturas. Estilo embutido; o bloco de impacto
+// usa a classe .context do painel (mesma caixinha verde dos "Impactos").
 //   <script src="assets/cambio.js" defer></script>
 (function () {
-  // ---- estilo (injetado uma única vez) ----
+  // ---- estilo dos cards (injetado uma única vez) ----
   const css = `
     .af-cambio-grid{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0}
     .af-cambio-card{flex:1 1 170px;border:1px solid rgba(0,0,0,.10);
@@ -38,9 +39,40 @@
     { chave: "EURBRL", rotulo: "Euro · EUR/BRL" },
   ];
 
+  // ---- bloco de impacto nas culturas (reativo à direção do dólar) ----
+  function impactoBlock(dados) {
+    const usd = dados.moedas && dados.moedas.USDBRL;
+    const p = usd ? usd.variacaoPct : null;
+    // limiar de 0,25% para não dramatizar oscilação pequena
+    let titulo = "Como o câmbio lê nas culturas";
+    if (p != null && p >= 0.25) {
+      titulo = "Dólar em alta — vento a favor na receita de exportação, pressão no custo de insumos";
+    } else if (p != null && p <= -0.25) {
+      titulo = "Dólar em baixa — alívio no custo de insumos, menor prêmio de exportação";
+    }
+
+    const box = document.createElement("div");
+    box.className = "context";
+    box.innerHTML = `
+      <h3>${titulo}</h3>
+      <p>O dólar puxa dois lados opostos da carteira. Na <b>receita</b>:
+      boi gordo, aves e suíno são fortemente exportados, e soja e milho seguem a
+      paridade de exportação — dólar mais alto melhora o preço em reais e a
+      capacidade de pagamento desses produtores. No <b>custo</b>: fertilizantes e
+      defensivos são majoritariamente dolarizados, e a ração (milho e farelo de
+      soja) encarece quando o dólar sobe, pressionando justamente as operações
+      intensivas que compram insumo — aves, suíno, leite e ovos. O euro pesa nas
+      vendas destinadas à União Europeia (carne bovina e de frango), na mesma direção.</p>
+      <p class="small">Leitura de crédito: exportadores de proteína e vendedores de
+      grão ganham pelo lado da receita; quem compra ração e insumo sente primeiro
+      pelo custo. Em ciclos de dólar em alta, vale revisar margem e o timing de
+      compra de insumos das operações confinadas/intensivas da carteira.</p>`;
+    return box;
+  }
+
   async function render() {
     const alvo = document.querySelector("#cambio-cards");
-    if (!alvo) return; // sem o contêiner no HTML, não faz nada
+    if (!alvo) return;
 
     try {
       const r = await fetch("dados/cambio.json", { cache: "no-store" });
@@ -72,7 +104,7 @@
       const d = new Date(dados.atualizadoEm);
       fonte.textContent = `${dados.fonte} · atualizado em ${d.toLocaleString("pt-BR")}`;
 
-      alvo.replaceChildren(grid, fonte);
+      alvo.replaceChildren(grid, fonte, impactoBlock(dados));
     } catch (e) {
       console.error("Falha ao carregar câmbio:", e);
       alvo.textContent = "Câmbio indisponível no momento.";
