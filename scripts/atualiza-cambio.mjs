@@ -74,14 +74,14 @@ function montaMoeda(fechamentos, nome) {
 async function main() {
   // USD/BRL — endpoint dedicado ao dólar.
   const usdItens = await busca(
-    `${OLINDA}/CotacaoDolarPeriodo(dataInicial=@di,dataFinalCotacao=@df)` +
-      `?@di='${dataInicial}'&@df='${dataFinal}'&$format=json`
+    `${OLINDA}/CotacaoDolarPeriodo(dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)` +
+      `?@dataInicial='${dataInicial}'&@dataFinalCotacao='${dataFinal}'&$format=json`
   );
 
   // EUR/BRL — endpoint genérico por moeda (cotacaoVenda já vem em BRL por euro).
   const eurItens = await busca(
-    `${OLINDA}/CotacaoMoedaPeriodo(moeda=@m,dataInicial=@di,dataFinalCotacao=@df)` +
-      `?@m='EUR'&@di='${dataInicial}'&@df='${dataFinal}'&$format=json`
+    `${OLINDA}/CotacaoMoedaPeriodo(moeda=@moeda,dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)` +
+      `?@moeda='EUR'&@dataInicial='${dataInicial}'&@dataFinalCotacao='${dataFinal}'&$format=json`
   );
 
   const saida = {
