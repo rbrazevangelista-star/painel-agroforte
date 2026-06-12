@@ -1,20 +1,20 @@
 {
-  "atualizadoEm": "2026-06-11T23:01:39.371Z",
+  "atualizadoEm": "2026-06-12T22:17:28.249Z",
   "fonte": "PTAX · Banco Central do Brasil",
   "moedas": {
     "USDBRL": {
-      "venda": 5.1478,
-      "compra": 5.1472,
-      "data": "2026-06-11",
-      "variacaoAbs": -0.0285,
-      "variacaoPct": -0.55
+      "venda": 5.0827,
+      "compra": 5.0821,
+      "data": "2026-06-12",
+      "variacaoAbs": -0.0651,
+      "variacaoPct": -1.26
     },
     "EURBRL": {
-      "venda": 5.9277,
-      "compra": 5.9265,
-      "data": "2026-06-11",
-      "variacaoAbs": -0.0514,
-      "variacaoPct": -0.86
+      "venda": 5.8827,
+      "compra": 5.881,
+      "data": "2026-06-12",
+      "variacaoAbs": -0.045,
+      "variacaoPct": -0.76
     }
   }
 }
